@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}
+{% endblock %}
+{% block content %}
+<div class="container">
+   <br><br><br>
+   <h1>{{ message }}</h1>
+
+<form method="post" action="/play">
+   {% for letter in letters %}
+   <button type="submit"
+      style="height:70px;width:70px;margin:5px"
+      class="btn btn-info btn-lg"
+      name="letter_button"
+      value="{{ letter }}">{{ letter }}</button>
+   {% endfor %}
+</form>
+<form>
+   {% for letter in guessed %}
+   <button type="submit"
+      style="height:50px;width:50px;margin:5px"
+      class="btn btn-danger btn-lg"
+      name="letter_button"
+      value="{{ letter }}">{{ letter }}</button>
+   {% endfor %}
+</form>
+    {{ current }}
+</div>
+{% endblock %}
