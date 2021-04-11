@@ -6,6 +6,7 @@ from main.forms import LetterButton
 from main.modules import Letters, AllLetters, Word, CountryList
 from main import db
 
+
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
     Word.query.delete()
@@ -86,7 +87,7 @@ def play():
         else:
             word.append('_')
 
-    count = [i for i in word if i != '_']
+    count = [i for i in word if i != '_' and i != ' ']
 
     correct_letters = len(set(count))
     tries_left = 5 - len(letter_list) + correct_letters
