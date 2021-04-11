@@ -5,21 +5,25 @@
 {% set color = colors|random %}
 <div class="container">
    <br>
-      <button class="btn btn-danger btn-lg"
-      style="height:50px;width:50px;margin-top:3px"
+   <h3>Countries and Territories</h3>
+   <br>
+      <button class="btn btn-danger"
+      style="height:40px;width:40px;margin-top:3px;margin-bottom:5px"
       type="button">
    {{ tries_left }}</button>
-      <button class="btn btn-danger btn-lg"
-      style="height:50px;width:auto;margin-top:3px"
+      <button class="btn btn-danger "
+      style="height:40px;width:auto;margin-top:3px;margin-bottom:5px"
       type="button">
    TRIES LEFT</button>
 
 
 
    <br>
+
+
    {% for letter in word %}
-   <button class="btn btn-secondary btn-lg"
-      style="height:50px;width:50px;margin-top:3px"
+   <button class="btn btn-secondary"
+      style="height:40px;width:40px;margin-top:3px"
       type="button">
    {{ letter }}</button>
    {% endfor %}

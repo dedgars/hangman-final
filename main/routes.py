@@ -6,7 +6,6 @@ from main.forms import LetterButton
 from main.modules import Letters, AllLetters, Word, CountryList
 from main import db
 
-
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
     Word.query.delete()
@@ -44,7 +43,14 @@ def home_page():
                 'Ukraine', 'United States Minor Outlying Islands', 'Uruguay', 'United States of America', 'Uzbekistan',
                 'Vatican', 'Venezuela', 'Viet Nam', 'Vanuatu', 'Samoa', 'Yemen', 'South Africa', 'Zambia', 'Zimbabwe']
     one_word = choice(wordbase).upper()
-    word = len(one_word) * ' '
+
+    word = []
+    for i in one_word:
+        if i == ' ':
+            word.append(' ')
+        else:
+            word.append('_')
+
     x = Word(theword=one_word)
     db.session.add(x)
     db.session.commit()
@@ -54,6 +60,7 @@ def home_page():
     for i in l:
         x = AllLetters(lett=str(i))
         db.session.add(x)
+
     db.session.commit()
 
     form = LetterButton()
@@ -71,20 +78,18 @@ def play():
     letter_list = [str(i) for i in letters]
     word = []
 
-
-
-
     for i in our_word:
         if i in letter_list:
             word.append(i)
-        else:
+        elif i == ' ':
             word.append(' ')
+        else:
+            word.append('_')
 
     count = [i for i in word if i != ' ']
 
     correct_letters = len(set(count))
     tries_left = 5 - len(letter_list) + correct_letters
-
 
     if our_word == ''.join(word):
         return render_template('home.html', all_letters=all_letters, colors=colors, word=word,
@@ -92,7 +97,6 @@ def play():
     elif tries_left < 1:
         return render_template('home.html', colors=['dark'], word=our_word,
                                message='YOU HAVE LOST!', tries_left='0')
-
 
     return render_template('home.html', all_letters=all_letters, colors=colors, word=word,
                            tries_left=tries_left)
