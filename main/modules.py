@@ -7,6 +7,17 @@ class Letters(db.Model):
     def __repr__(self):
         return self.letter
 
+class AllLetters(db.Model):
+    id = db.Column(db.Integer(), primary_key=True)
+    lett = db.Column(db.String(length=5), nullable=False)
+
+    def __repr__(self):
+        return self.lett
+
+
+
+
+
 
 
 

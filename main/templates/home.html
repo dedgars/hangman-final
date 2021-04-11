@@ -3,27 +3,18 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-   <br><br><br>
-   <h1>{{ message }}</h1>
+    <h1>Play</h1>
+    <form action="/" method="post">
+        {{ form.hidden_tag() }}
+        <p>{{ form.letter() }}</p>
+    </form>
 
-<form method="post" action="/play">
-   {% for letter in letters %}
-   <button type="submit"
-      style="height:70px;width:70px;margin:5px"
-      class="btn btn-info btn-lg"
-      name="letter_button"
-      value="{{ letter }}">{{ letter }}</button>
-   {% endfor %}
-</form>
-<form>
-   {% for letter in guessed %}
-   <button type="submit"
-      style="height:50px;width:50px;margin:5px"
-      class="btn btn-danger btn-lg"
-      name="letter_button"
-      value="{{ letter }}">{{ letter }}</button>
-   {% endfor %}
-</form>
-    {{ current }}
+    {% for letter in all_letters %}
+    <a href="/delete_letter/{{ letter }}">{{ letter }}</a>
+    {% endfor %}
+
+
 </div>
 {% endblock %}
+
+

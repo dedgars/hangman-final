@@ -4,10 +4,13 @@
 {% block content %}
 <div class="container">
    <br><br><br>
-   <h1>{{ message }}</h1>
+   {{ letters_played }}<br>
+   {{ current }}<br>
+   {{ all_l }}<br>
+   {{ letters_left }}
 
 <form method="post" action="/play">
-   {% for letter in letters %}
+   {% for letter in letters_left %}
    <button type="submit"
       style="height:70px;width:70px;margin:5px"
       class="btn btn-info btn-lg"
@@ -16,8 +19,8 @@
    {% endfor %}
 </form>
 <form>
-   {% for letter in guessed %}
-   <button type="submit"
+   {% for letter in letters_played %}
+   <button
       style="height:50px;width:50px;margin:5px"
       class="btn btn-danger btn-lg"
       name="letter_button"

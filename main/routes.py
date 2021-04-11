@@ -2,38 +2,39 @@ import string
 
 from main import app
 from flask import render_template, redirect, url_for, flash, get_flashed_messages, request
-from main.modules import Letters
+from main.forms import LetterButton
+from main.modules import Letters, AllLetters
 from main import db
 
-all_letters = list(string.ascii_uppercase)
 
-
-@app.route('/',  methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST'])
 def home_page():
+
     Letters.query.delete()
+    AllLetters.query.delete()
+    l = list(string.ascii_uppercase)
+    for i in l:
+        x = AllLetters(lett=i)
+        db.session.add(x)
     db.session.commit()
 
-    message = 'This is home'
-    current = ''
-    if request.method == 'POST':
-        current = request.form["letter_button"]
-        letter_db = Letters(letter=current)
-        db.session.add(letter_db)
-        db.session.commit()
-        guessed = Letters.query.all()
-        return render_template('play.html', message=message, letters=all_letters, guessed=guessed, current=current)
+    form = LetterButton()
+    all_letters = AllLetters.query.all()
+    return render_template('home.html', form=form, all_letters=all_letters)
 
-    return render_template('home.html', message=message, letters=all_letters)
-
-
-@app.route('/play',  methods=['GET', 'POST'])
+@app.route('/play', methods=['GET', 'POST'])
 def play():
-    current = request.form["letter_button"]
-    letter_db = Letters(letter=current)
-    letters_left = all_letters
-    letters_left.remove(current)
-    db.session.add(letter_db)
-    db.session.commit()
-    guessed = Letters.query.all()
-    return render_template('play.html', letters=letters_left, guessed=guessed, current=current)
+    form = LetterButton()
+    all_letters = AllLetters.query.all()
+    return render_template('home.html', form=form, all_letters=all_letters)
 
+
+@app.route('/delete_letter/<letter>', methods=['GET', 'POST'])
+def delete_letter(letter):
+    letter = AllLetters.query.filter_by(lett=letter).first()
+    try:
+        db.session.delete(letter)
+        db.session.commit()
+        return redirect(url_for('play'))
+    except:
+        return 'Error deleting'
