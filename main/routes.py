@@ -43,6 +43,7 @@ def home_page():
                 'Ukraine', 'United States Minor Outlying Islands', 'Uruguay', 'United States of America', 'Uzbekistan',
                 'Vatican', 'Venezuela', 'Viet Nam', 'Vanuatu', 'Samoa', 'Yemen', 'South Africa', 'Zambia', 'Zimbabwe']
     one_word = choice(wordbase).upper()
+    one_word = 'USA DD'
 
     word = []
     for i in one_word:
@@ -86,7 +87,7 @@ def play():
         else:
             word.append('_')
 
-    count = [i for i in word if i != ' ']
+    count = [i for i in word if i != '_']
 
     correct_letters = len(set(count))
     tries_left = 5 - len(letter_list) + correct_letters
