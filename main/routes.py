@@ -59,31 +59,43 @@ def home_page():
     form = LetterButton()
     all_letters = AllLetters.query.all()
     colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'dark']
-    return render_template('home.html', form=form, all_letters=all_letters, colors=colors, word=word)
+    return render_template('home.html', form=form, all_letters=all_letters, colors=colors, word=word, tries_left='5')
 
 
 @app.route('/play', methods=['GET', 'POST'])
 def play():
+    colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'dark']
     our_word = db.session.query(Word.theword).filter_by(id=1).first()[0]
     all_letters = AllLetters.query.all()
     letters = Letters.query.all()
     letter_list = [str(i) for i in letters]
-
-    word_list = list(our_word)
-    print(word_list)
-    print(letters)
-
     word = []
+
+
+
+
     for i in our_word:
         if i in letter_list:
             word.append(i)
         else:
             word.append(' ')
 
-    print(word)
+    count = [i for i in word if i != ' ']
 
-    colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'dark']
-    return render_template('home.html', all_letters=all_letters, colors=colors, word=word, our_word=our_word)
+    correct_letters = len(set(count))
+    tries_left = 5 - len(letter_list) + correct_letters
+
+
+    if our_word == ''.join(word):
+        return render_template('home.html', all_letters=all_letters, colors=colors, word=word,
+                               message='YOU WIN!!!', tries_left=tries_left)
+    elif tries_left < 1:
+        return render_template('home.html', colors=['dark'], word=our_word,
+                               message='YOU HAVE LOST!', tries_left='0')
+
+
+    return render_template('home.html', all_letters=all_letters, colors=colors, word=word,
+                           tries_left=tries_left)
 
 
 @app.route('/delete_letter/<letter>', methods=['GET', 'POST'])
