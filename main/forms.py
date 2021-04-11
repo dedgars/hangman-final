@@ -3,4 +3,4 @@ from wtforms import StringField, PasswordField, BooleanField, SubmitField
 
 
 class LetterButton(FlaskForm):
-    letter = SubmitField()
+    letter = SubmitField('New Game')

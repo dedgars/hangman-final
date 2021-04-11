@@ -3,18 +3,37 @@
 {% endblock %}
 {% block content %}
 <div class="container">
-    <h1>Play</h1>
-    <form action="/" method="post">
-        {{ form.hidden_tag() }}
-        <p>{{ form.letter() }}</p>
-    </form>
+   <br>
+   <br>
 
-    {% for letter in all_letters %}
-    <a href="/delete_letter/{{ letter }}">{{ letter }}</a>
-    {% endfor %}
+   {% for letter in word %}
+   <button class="btn btn-success btn-lg"
+      style="height:50px;width:50px;margin-top:3px"
+      type="button">
+   {{ letter }}</button>
+   {% endfor %}
+   <br>
+   <br>
+<div>
+   {{ our_word }}
+</div>
 
+<div>
+   {% for letter in all_letters %}
+   {% set color = colors|random %}
+   <button class="btn btn-{{ color }}"
+      style="height:40px;width:40px;margin-top:3px"
+      onclick="location.href='/delete_letter/{{ letter }}'" type="button">
+   {{ letter }}</button>
+   {% endfor %}
+</div>
 
+      <br>
+<div>
+      <button class="btn btn-primary btn-lg"
+      onclick="location.href='/'" type="button">
+   NEW GAME</button>
+</div>
+<br>
 </div>
 {% endblock %}
-
-
